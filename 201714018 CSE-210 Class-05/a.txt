@@ -1,0 +1,75 @@
+.MODEL STACK
+.STACK 100H
+.DATA
+INPUTA DB 0AH,0DH,'Enter A: $'
+INPUTB DB 0AH,0DH,'Enter B: $'
+INPUTC DB 0AH,0DH,'Enter C: $'
+OUTPUT DB 0AH,0DH,'Maximum Number: $' 
+VAR1 DB 0
+VAR2 DB 0
+VAR3 DB 0
+MAX DB ?
+.CODE   
+MAIN PROC
+    MOV AX , @DATA
+    MOV DS , AX 
+    
+    ;INPUT A
+    MOV AH , 9
+    LEA DX , INPUTA
+    INT 21H
+    
+    MOV AH , 1
+    INT 21H
+    
+    MOV VAR1 , AL
+    
+    ;INPUT B
+    MOV AH , 9
+    LEA DX , INPUTB
+    INT 21H
+    
+    MOV AH , 1
+    INT 21H
+    
+    MOV VAR2 , AL
+    
+    ;INPUT C
+    MOV AH , 9
+    LEA DX , INPUTC
+    INT 21H
+    
+    MOV AH , 1
+    INT 21H
+    
+    MOV VAR3 , AL 
+    
+    ;MAXIMUM
+    MOV BL , VAR1
+    CMP BL , VAR2
+    JGE ELSE1
+        MOV BL , VAR2
+    ELSE1:
+        CMP BL , VAR3
+        JGE ELSE2
+            MOV BL , VAR3
+        ELSE2:
+        
+    ;OUTPUT
+    
+    MOV AH , 9
+    LEA DX , OUTPUT
+    INT 21H
+     
+    MOV DL , BL
+    MOV AH , 2
+    INT 21H
+    
+    
+    
+     
+    
+    MOV AH , 4CH
+    INT 21H
+MAIN ENDP
+END MAIN
